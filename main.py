@@ -1,9 +1,6 @@
-#!~/.local/share/virtualenvs/codeforces-helper-o_PEnNh5/bin/python
-# ! Above shebang is the path to the virtualenv that has the required packages.
-# ! YOURS WILL BE DIFFERENT
-
 from contest_parsing import contest, problem, testcase
 import os
+import sys
 
 def createContestFolder(mainPath, currentContest: contest):
     """
@@ -58,7 +55,6 @@ def createTestcaseFiles(currentProblemPath: str, testcaseIndex: int, currentTest
         pass
 
 if __name__ == "__main__":
-    # Please excuse the ghetto testing
-    mainPath = os.getcwd() 
-    currentContest = contest.Contest("https://codeforces.com/contest/1301/")
+    mainPath = os.environ['DIRFORCES']
+    currentContest = contest.Contest(sys.argv[1])
     createContestFolder(mainPath, currentContest)
