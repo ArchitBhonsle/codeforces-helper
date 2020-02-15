@@ -1,10 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 
-import problem
+from contest_parsing import problem
 
 class Contest:
-
 
     def __init__(self, contestURL: str):
         self.contestURL = contestURL
@@ -12,7 +11,7 @@ class Contest:
         
     def getProblems(self) -> tuple:
         """
-            * Returns a list of Problem objects associated with the Contest
+            * Returns the name and a list of Problem objects associated with the Contest
         """
         contestPage = requests.get(self.contestURL)
         parsedContestPage = BeautifulSoup(contestPage.content, "html.parser")
@@ -25,6 +24,9 @@ class Contest:
 
         return name, [problem.Problem(tag, problemUrl) for tag, problemUrl in problemsList]
 
+    def getId(self) -> str:
+        return self.contestURL[31:-1]
+
     def __str__(self) -> str:
         build = []
 
@@ -34,6 +36,7 @@ class Contest:
             build.append(str(problem))
 
         return "\n".join(build)
+
 
 if __name__ == "__main__":
     ContestEDC81 = Contest("https://codeforces.com/contest/1295")

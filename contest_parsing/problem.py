@@ -1,10 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 
-import testcase
+from contest_parsing import testcase
 
 class Problem:
-
 
     def __init__(self, tag: str, problemURL: str):
         self.tag = tag
@@ -30,6 +29,9 @@ class Problem:
             testcases.append(testcase.Testcase(inp.strip(), out.strip()))
 
         return testcases
+
+    def getTag(self) -> str:
+        return str(self.tag)
 
     def __str__(self) -> str:
         build = []
