@@ -6,6 +6,7 @@ templatesPath = os.path.join(os.environ["CFHDIR"], "templates")
 cleanScriptSourceContent = ""
 runScriptSourceContent = ""
 diffScriptSourceContent = ""
+solutionTemplateSourceContent = ""
 
 cleanScriptSourcePath = os.path.join(templatesPath, "clean.sh")
 with open(cleanScriptSourcePath, "r") as cleanScriptSource:
@@ -19,11 +20,15 @@ diffScriptSourcePath = os.path.join(templatesPath, "diff.sh")
 with open(diffScriptSourcePath, "r") as diffScriptSource:
     diffScriptSourceContent = diffScriptSource.read()
 
+solutionTemplateSourcePath = os.path.join(templatesPath, "sol.cpp")
+with open(solutionTemplateSourcePath, "r") as solutionTemplateSource:
+    solutionTemplateSourceContent = solutionTemplateSource.read()
+
 
 def createContestFolder(mainPath, currentContest: contest):
     """
         * Creates the Contest folder and invokes createProblemFolder for each Problem.
-        * Also adds a clean.sh to every Contest folder to make it ready for Github push.
+        ! Also adds a clean.sh to every Contest folder to make it ready for Github push.
     """
 
     # Creating the Contest Folder
@@ -34,16 +39,18 @@ def createContestFolder(mainPath, currentContest: contest):
     for problem in currentContest.problems:
         createProblemFolder(currentContestPath, problem)
 
-    # TODO Add the clean.sh part
+    # Copies contents of the clean.sh file in templates to clean.sh in the problem directory
+    # ! Clean script not Working
     cleanScriptPath = os.path.join(currentContestPath, "clean.sh")
     with open(cleanScriptPath, "w") as cleanScript:
         cleanScript.write(cleanScriptSourceContent)
+    os.chmod(cleanScriptPath, 0o775)
 
 
 def createProblemFolder(currentContestPath: str, currentProblem: problem):
     """
         * Creates the problem folder and invokes createTestcaseFiles for each Testcase.
-        * Also adds a run.sh to each problem folder to run solution against each input
+        * Also adds a run.sh and diff.sh to each problem directory
     """
 
     # Creating the Problem folder
@@ -55,36 +62,44 @@ def createProblemFolder(currentContestPath: str, currentProblem: problem):
     for testcaseIndex, currentTestcase in enumerate(currentProblem.testcases):
         createTestcaseFiles(currentProblemPath, testcaseIndex, currentTestcase)
 
-    # TODO Add the run.sh and diff.sh part
+    # Copies contents of the run.sh file in templates to run.sh in the problem directory
     runScriptPath = os.path.join(currentProblemPath, "run.sh")
     with open(runScriptPath, "w") as runScript:
         runScript.write(runScriptSourceContent)
+    os.chmod(runScriptPath, 0o775)
 
+    # Copies contents of the diff.sh file in templates to diff.sh in the problem directory
     diffScriptPath = os.path.join(currentProblemPath, "diff.sh")
     with open(diffScriptPath, "w") as diffScript:
         diffScript.write(diffScriptSourceContent)
+    os.chmod(diffScriptPath, 0o775)
+
+    # Copies contents of the sol.cpp file in templates to sol.cpp in the problem directory
+    solutionTemplatePath = os.path.join(currentProblemPath, "sol.cpp")
+    with open(solutionTemplatePath, "w") as solutionTemplate:
+        solutionTemplate.write(solutionTemplateSourceContent)
 
 
 def createTestcaseFiles(currentProblemPath: str, testcaseIndex: int, currentTestCase: testcase):
     """
-        * Creating inp.txt, exp.txt and out.txt for each Testcase
+        * Creating .inp, .exp and .out for each Testcase
     """
 
     # Creating Input file
     currentTestcaseInpPath = os.path.join(
-        currentProblemPath, f"inp_{testcaseIndex}.txt")
+        currentProblemPath, f"{testcaseIndex}.inp")
     with open(currentTestcaseInpPath, "w") as testcaseFileIn:
         testcaseFileIn.write(currentTestCase.inp)
 
     # Creating Expected_Output file
     currentTestcaseExpPath = os.path.join(
-        currentProblemPath, f"exp_{testcaseIndex}.txt")
+        currentProblemPath, f"{testcaseIndex}.exp")
     with open(currentTestcaseExpPath, "w") as testcaseFileExp:
         testcaseFileExp.write(currentTestCase.out)
 
     # Creating (empty) Output file
     currentTestcaseOutPath = os.path.join(
-        currentProblemPath, f"out_{testcaseIndex}.txt")
+        currentProblemPath, f"{testcaseIndex}.out")
     with open(currentTestcaseOutPath, "w") as testcaseFileOut:
         pass
 

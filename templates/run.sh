@@ -1,8 +1,7 @@
 #!/bin/bash
 
-sol=$1
-inpFiles=(`ls inp_*.txt`)
+inpFiles=(`ls *.inp`)
 
-for ((i=0; i<${#inputFiles[@]}; ++i)); do
-    ./$sol < inp_$i.txt > out_$i.txt
+for ((i=0; i<${#inpFiles[@]}; ++i)); do
+    ./sol < $i.inp > $i.out
 done

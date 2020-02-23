@@ -1,9 +1,7 @@
 #!/bin/bash
 
-sol=$1
-expFiles=(`ls exp_*.txt`)
-outFiles=(`ls out_*.txt`)
+outFiles=(`ls *.out`)
 
-for ((i=0; i<${#outputFiles[@]}; ++i)); do
-    diff -c out_$i.txt exp_$i.txt
+for ((i=0; i<${#outFiles[@]}; ++i)); do
+    diff -c $i.out $i.exp
 done
