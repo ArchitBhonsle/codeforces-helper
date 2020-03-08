@@ -3,14 +3,9 @@ import os
 import sys
 
 templatesPath = os.path.join(os.environ["CFHDIR"], "templates")
-cleanScriptSourceContent = ""
 runScriptSourceContent = ""
 diffScriptSourceContent = ""
 solutionTemplateSourceContent = ""
-
-cleanScriptSourcePath = os.path.join(templatesPath, "clean.sh")
-with open(cleanScriptSourcePath, "r") as cleanScriptSource:
-    cleanScriptSourceContent = cleanScriptSource.read()
 
 runScriptSourcePath = os.path.join(templatesPath, "run.sh")
 with open(runScriptSourcePath, "r") as runScriptSource:
@@ -38,13 +33,6 @@ def createContestFolder(mainPath, currentContest: contest):
     # Invoking createProblemFolder for all the Contest's Problems
     for problem in currentContest.problems:
         createProblemFolder(currentContestPath, problem)
-
-    # Copies contents of the clean.sh file in templates to clean.sh in the problem directory
-    # ! Clean script not Working
-    cleanScriptPath = os.path.join(currentContestPath, "clean.sh")
-    with open(cleanScriptPath, "w") as cleanScript:
-        cleanScript.write(cleanScriptSourceContent)
-    os.chmod(cleanScriptPath, 0o775)
 
 
 def createProblemFolder(currentContestPath: str, currentProblem: problem):
