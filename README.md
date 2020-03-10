@@ -1,6 +1,6 @@
 # codeforces-helper
 
-This was written to work on UNIX based platforms. If you want to add windows support please feel free to fork it.
+A simple web-scraping python script that sets up a nice directory structure for your codeforces contests so you can focus on the coding.
 
 ## How it works
 
@@ -63,8 +63,15 @@ git clone https://github.com/ArchitBhonsle/codeforces-helper
 
 Then you need to set up a virtual environment. I recommend using pipenv.
 
+If you have python 2 installed *pip* with *pip3*.
+
 ```bash
 pip install --user pipenv
+```
+
+This installs pipenv
+
+```bash
 cd "path/to/where/you/cloned/the/repo"
 pipenv shell
 pipenv install --ignore-pipfile
@@ -102,3 +109,5 @@ or
 
 cfh https://codeforces.com/contest/<contest-id>
 ```
+
+The python part of the script I believe *is* cross-platform however the bash scripts naturally only work on systems with bash, basically UNIX systems. If you want to add Windows support please fell free to fork the repo.
