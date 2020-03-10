@@ -41,7 +41,7 @@ This will create a directory named `<contest-id>` under a directory defined duri
 
 * `run.sh` in each of the problem directories runs your `sol.cpp` against each of the inputs and redirects to corresponding output files.
 * `diff.sh` compares your output files against the expected output files.
-  `clean.sh` cleans the contest directory removing all the inp, out & exp files keeping only the solution files making the directory structure as shown below.
+* `clean.sh` cleans the contest directory removing all the inp, out & exp files keeping only the solution files making the directory structure as shown below.
 
 ```text
 <contest-id>
