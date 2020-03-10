@@ -5,6 +5,7 @@ import sys
 templatesPath = os.path.join(os.environ["CFHDIR"], "templates")
 runScriptSourceContent = ""
 diffScriptSourceContent = ""
+cleanScriptSourceContent = ""
 solutionTemplateSourceContent = ""
 
 runScriptSourcePath = os.path.join(templatesPath, "run.sh")
@@ -15,6 +16,10 @@ diffScriptSourcePath = os.path.join(templatesPath, "diff.sh")
 with open(diffScriptSourcePath, "r") as diffScriptSource:
     diffScriptSourceContent = diffScriptSource.read()
 
+cleanScriptSourcePath = os.path.join(templatesPath, "clean.sh")
+with open(cleanScriptSourcePath, "r") as cleanScriptSource:
+    cleanScriptSourceContent = cleanScriptSource.read()
+
 solutionTemplateSourcePath = os.path.join(templatesPath, "sol.cpp")
 with open(solutionTemplateSourcePath, "r") as solutionTemplateSource:
     solutionTemplateSourceContent = solutionTemplateSource.read()
@@ -23,7 +28,6 @@ with open(solutionTemplateSourcePath, "r") as solutionTemplateSource:
 def createContestFolder(mainPath, currentContest: contest):
     """
         * Creates the Contest folder and invokes createProblemFolder for each Problem.
-        ! Also adds a clean.sh to every Contest folder to make it ready for Github push.
     """
 
     # Creating the Contest Folder
@@ -33,6 +37,12 @@ def createContestFolder(mainPath, currentContest: contest):
     # Invoking createProblemFolder for all the Contest's Problems
     for problem in currentContest.problems:
         createProblemFolder(currentContestPath, problem)
+
+    # Copies contents of the clean.sh file in templates to clean.sh in the Contest directory
+    cleanScriptPath = os.path.join(currentContestPath, "clean.sh")
+    with open(cleanScriptPath, "w") as cleanScript:
+        cleanScript.write(cleanScriptSourceContent)
+    os.chmod(cleanScriptPath, 0o775)
 
 
 def createProblemFolder(currentContestPath: str, currentProblem: problem):
@@ -46,7 +56,7 @@ def createProblemFolder(currentContestPath: str, currentProblem: problem):
         currentContestPath, currentProblem.problemTag)
     os.mkdir(currentProblemPath)
 
-    # Invoking createtestcaseFiles for all the Problem's Testcases
+    # Invoking createTestcaseFiles for all the Problem's Testcases
     for testcaseIndex, currentTestcase in enumerate(currentProblem.testcases):
         createTestcaseFiles(currentProblemPath, testcaseIndex, currentTestcase)
 
