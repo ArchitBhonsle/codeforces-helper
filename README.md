@@ -71,7 +71,6 @@ pipenv install --ignore-pipfile
 pipenv --venv   # Gives you the path to the virtual environment needed later
 ```
 
-(The last command gives you the path to the virtual environment which you will need later)
 This will get all the dependencies set up.
 
 However to make this script work you need to setup three environment variables.
