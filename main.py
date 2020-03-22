@@ -44,6 +44,8 @@ def createContestFolder(mainPath, currentContest: contest):
         cleanScript.write(cleanScriptSourceContent)
     os.chmod(cleanScriptPath, 0o775)
 
+    print(str(currentContest))
+
 
 def createProblemFolder(currentContestPath: str, currentProblem: problem):
     """

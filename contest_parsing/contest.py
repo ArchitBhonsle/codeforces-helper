@@ -24,7 +24,7 @@ class Contest:
 
         # Getting the problems(Table -> Div -> List)
         contestName = parsedContestPage.find_all(
-            class_="rtable")[0].tr.th.a.contents[0]
+            class_="rtable")[0].tbody.tr.th.a.contents[0]
 
         # TODO Check for multiple "problems" divs
         problemsTable = parsedContestPage.find_all(class_="problems")[0]
